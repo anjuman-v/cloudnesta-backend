@@ -49,7 +49,6 @@ passport.use(new GitHubStrategy({
   scope:[ 'email', 'profile' ]
 },
 async function(request, accessToken, refreshToken, profile, done) { 
-  //  console.log(request)
     let user = await User.findOne({email: profile?._json?.email}).lean().exec();
     if(! user) {
         user = await User.create({
@@ -86,3 +85,5 @@ async function(request, accessToken, refreshToken, profile, done) {
 
 
 module.exports = passport;
+
+
