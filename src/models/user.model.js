@@ -7,7 +7,10 @@ const userSchema = new mongoose.Schema({
     last_name: {type: String, required: false},
     email: {type: String, required: true},
     password: {type: String, required: true},
-    
+    designation: {type: String, required: false},
+    improvementRequired: {type: String, required: false},
+    hostingBudget:{type: String, required: false},
+    promoCode: {type: String, required: false},
     
 }, {
     versionKey: false,

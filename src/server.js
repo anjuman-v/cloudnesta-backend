@@ -27,10 +27,10 @@ app.get("/", function(req, res) {
 })
 
 
+//google auth
 app.get('/auth/google',
     passport.authenticate('google', { scope:[ 'email', 'profile' ] }
 ));
-
 
 app.get("/auth/google/callback",
     passport.authenticate("google", { failureRedirect: "/" }),
@@ -38,6 +38,34 @@ app.get("/auth/google/callback",
       return res.status(201).json({ status: "success", user: req.user });
     }
   );
+
+  //github auth
+  app.get('/auth/github',
+  passport.authenticate('github', { scope: [ 'user:email' ] }));
+
+app.get('/auth/github/callback', 
+  passport.authenticate('github', { failureRedirect: '/login' }),
+  function(req, res) {
+    // Successful authentication, redirect home.
+    res.redirect('/');
+  });
+
+
+
+  //linkedin
+  app.get('/auth/linkedin',
+  passport.authenticate('linkedin', { state: 'SOME STATE'  }),
+  function(req, res){
+    // The request will be redirected to LinkedIn for authentication, so this
+    // function will not be called.
+  });
+
+app.get('/auth/linkedin/callback', passport.authenticate('linkedin', {
+  successRedirect: '/',
+  failureRedirect: '/login'
+}));
+
+
 
 app.post("/register", register); 
 app.post("/login", login);
