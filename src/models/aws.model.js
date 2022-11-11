@@ -7,11 +7,11 @@ const awsSchema = new mongoose.Schema(
         your_Application: { type: String, required: true},
         your_Server: { type: String, required: true},
         your_Project: { type: Number, required: true },
-        server_size:{type: String, required: true},
-        bandwith:{type: String, required: true},
-        applicationWebFileStorage:{type: String, required: true},
-        databaseStorage:{type: String, required: true},
-        location: { type: String, required: true },
+        server_size:{type: String, },
+        bandwith:{type: String, },
+        applicationWebFileStorage:{type: String, },
+        databaseStorage:{type: String, },
+        location: { type: String,  },
         
 
     },{

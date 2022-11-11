@@ -42,16 +42,20 @@ passport.use(new GoogleStrategy({
 
 
 //github 
+
 passport.use(new GitHubStrategy({
   clientID: process.env.GITHUB_CLIENT_ID,
   clientSecret: process.env.GITHUB_CLIENT_SECRET,
   callbackURL: "http://localhost:7000/auth/github/callback",
   scope:[ 'email', 'profile' ]
 },
+
 async function(request, accessToken, refreshToken, profile, done) { 
-    let user = await User.findOne({email: profile?._json?.email}).lean().exec();
-    if(! user) {
-        user = await User.create({
+  
+  let user = await User.findOne({email: profile?._json?.email}).lean().exec();
+  
+  if(! user) {
+       user = await User.create({
             email: profile?._json?.email,
             password: uuidv4()
         })
