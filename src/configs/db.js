@@ -7,5 +7,3 @@ const mongoDB = "mongodb+srv://cloudenesta:cloudenesta@cluster0cloudenesta.tdlzn
 module.exports = ()=>mongoose.connect(mongoDB)
 
 
-
-//bhut gnde ho
