@@ -21,7 +21,7 @@ const User = require("../models/user.model");
 passport.use(new GoogleStrategy({
     clientID: process.env.CLIENT_ID,
     clientSecret: process.env.CLIENT_SECRET,
-    callbackURL: "http://localhost:5000/auth/google/callback",
+    callbackURL: "https://cloudnesta-backend.herokuapp.com/auth/google/callback",
     scope:[ 'email', 'profile' ],
     passReqToCallback   : true
   },
@@ -48,7 +48,7 @@ passport.use(new GoogleStrategy({
 passport.use(new GitHubStrategy({
   clientID: process.env.GITHUB_CLIENT_ID,
   clientSecret: process.env.GITHUB_CLIENT_SECRET,
-  callbackURL: "http://localhost:5000/auth/github/callback",  // Backend heroku url 
+  callbackURL: "https://cloudnesta-backend.herokuapp.com/auth/github/callback",  // Backend heroku url 
   // scope:[ 'email' ]
 },
 
