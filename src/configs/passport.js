@@ -19,12 +19,15 @@ const User = require("../models/user.model");
 
 
 passport.use(new GoogleStrategy({
-    clientID: process.env.GOOGLE_CLIENT_ID,
-    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: "http://localhost:7000/auth/google/callback",
-    scope:[ 'email', 'profile' ]
+    clientID: process.env.CLIENT_ID,
+    clientSecret: process.env.CLIENT_SECRET,
+    callbackURL: "http://localhost:5000/auth/google/callback",
+    scope:[ 'email', 'profile' ],
+    passReqToCallback   : true
   },
   async function(req, accessToken, refreshToken, profile, done) { 
+
+    // console.log(profile)
 
     let user = await User.findOne({email: profile?._json?.email}).lean().exec();
       if(! user) {
@@ -33,7 +36,7 @@ passport.use(new GoogleStrategy({
               password: uuidv4()
           })
       }
-    const token = refreshToken?.access_token;
+    const token = accessToken;
     return done(null, {user, token}) 
   }
 ));
@@ -45,20 +48,21 @@ passport.use(new GoogleStrategy({
 passport.use(new GitHubStrategy({
   clientID: process.env.GITHUB_CLIENT_ID,
   clientSecret: process.env.GITHUB_CLIENT_SECRET,
-  callbackURL: "http://localhost:7000/auth/github/callback",
-  scope:[ 'email', 'profile' ]
+  callbackURL: "http://localhost:5000/auth/github/callback",  // Backend heroku url 
+  // scope:[ 'email' ]
 },
 
 async function(request, accessToken, refreshToken, profile, done) { 
   
-  let user = await User.findOne({email: profile?._json?.email}).lean().exec();
+  let user = await User.findOne({email: profile?._json?.login}).lean().exec();
   
-  if(! user) {
-       user = await User.create({
-            email: profile?._json?.email,
-            password: uuidv4()
-        })
-    }
+  // if(! user) {
+  //      user = await User.create({
+  //           email: profile?._json?.email,
+  //           password: uuidv4()
+  //       })
+  //   }
+    // console.log(refreshToken)
   return done(null, {user})
 }
 ));
@@ -69,7 +73,7 @@ async function(request, accessToken, refreshToken, profile, done) {
 passport.use(new LinkedInStrategy({
   clientID: process.env.LINKEDIN_KEY,
   clientSecret: process.env.LINKEDIN_SECRET,
-  callbackURL: "http://localhost:7000/auth/linkedin/callback",
+  callbackURL: "https://cloudnesta-backend.herokuapp.com/auth/linkedin/callback",
   // scope:[ 'profile' ]
 },
 async function(request, accessToken, refreshToken, profile, done) { 
@@ -81,6 +85,7 @@ async function(request, accessToken, refreshToken, profile, done) {
             password: uuidv4()
         })
     }
+  
   return done(null, {user})
 }
 ));
